@@ -1,5 +1,5 @@
 # Sudoku-Solver
-This is a personal project, that put all my today knowledges to the test, is a project that im developing alone and with a lot of effort.
+This is a personal project, that put all my today knowledges to the test, is a project that im developing alone with a lot of effort and enthusiasm.
 ===================================================================================================
 Started on 19/10/2021
 Current version can solve from the easy ones, to the hard ones without bugs
