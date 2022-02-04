@@ -4,6 +4,8 @@
 
 #
 
+To run this program as intended you need to have `python=3.10` installed or similar
+
 ### Update on 04/02/2022
 
 Current version bring a random sudoku from web and solve it, the sudoku info will be generated and can be found on `sudoku.json` in the project folder
@@ -16,6 +18,7 @@ The only input method is putting the numbers inside the matrix in `main.py`
 ## Quick Start
 
 ```sh
+pip install requirements.txt
 python -m main
 ```
 
