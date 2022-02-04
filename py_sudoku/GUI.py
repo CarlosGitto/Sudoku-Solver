@@ -1,6 +1,8 @@
+##work in progress
+
 from tkinter import *
 
-raiz=Tk()
+raiz = Tk()
 
 raiz.title("Sudoku Solucionator")
 
