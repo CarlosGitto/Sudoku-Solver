@@ -1,9 +1,23 @@
-from textwrap import indent
 import requests
-import io
 import json
 import random
 import numpy as np
+
+"""
+
+files=dict(foo='bar')
+"""
+
+
+def check_difficult(level):
+    my_dict = {
+        "60": "muy_facil",
+        "20": "facil",
+        "14": "normal",
+        "10": "dificil",
+        "-20": "muy dificil"
+    }
+    return my_dict[level]
 
 
 def make_a_save(sudoku_info):
@@ -19,15 +33,15 @@ def get_sudoku():
     random_sudoku = "".join([str(random.randint(0, 9)) for k in range(13)])
 
     resb = requests.get(
-        f"https://www.sudoku-online.org/getsudoku.php?{random_sudoku}")
+        f"https://www.sudoku-online.org/getsudoku.php?{random_sudoku}", files=dict(nivel=14))
 
     sudoku = json.loads(resb.content.decode('utf-8'))
 
     initial_sudoku = sudoku["sudoku"].replace(".", "0")
-
+    difficulty = check_difficult(sudoku["nivel"])
     make_a_save(sudoku)
 
-    return initial_sudoku
+    return initial_sudoku, difficulty
 
 
 def make_a_sudoku():
@@ -36,7 +50,7 @@ def make_a_sudoku():
     and return it
     """
 
-    initial_sudoku = get_sudoku()
+    initial_sudoku, difficulty = get_sudoku()
     final_sudoku = []
     x = len(initial_sudoku)
     n = 9
@@ -48,4 +62,4 @@ def make_a_sudoku():
 
     my_sudoku = np.array(final_sudoku)
 
-    return my_sudoku
+    return my_sudoku, difficulty
