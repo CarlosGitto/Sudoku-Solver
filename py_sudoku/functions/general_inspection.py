@@ -27,11 +27,11 @@ def fnd_kn_val(sudoku_row, sudoku_clmn, dict, i, j):
 
 
 def val_x_y_sqr(sudoku, dict):
-    for i in range(9):
-        for j in range(9):
-            if sudoku[i][j] == 0:
-                pos_val = fnd_kn_val(sudoku[i], sudoku[:, j], dict, i, j)
-                for name, val in dict.items():
-                    if (str(i)+str(j)) in name and dict[name] != pos_val:
-                        dict.update({name: pos_val})
-                        print("valores actualizado para", name)
+    for key in dict.keys():
+        i = int(key[1])
+        j = int(key[2])
+        if sudoku[i][j] == 0:
+            pos_val = fnd_kn_val(sudoku[i], sudoku[:, j], dict, i, j)
+            dict[key] = pos_val
+
+            print("valores actualizado para", key)

@@ -1,5 +1,6 @@
 import numpy as np
-from py_sudoku.functions.update_dictionary import put_val
+import time
+from py_sudoku.functions.remove_single_int_list import remove_single_int_list
 from py_sudoku.functions.find_family_horphan import only_one_option_in_family
 from py_sudoku.functions.find_family_twins import same_pos_and_val
 from py_sudoku.functions.find_ghst_values import ghst_values_chk
@@ -15,7 +16,7 @@ def func(sudoku, dict):
     # iniciamos el diccionario
 
     val_x_y_sqr(sudoku, dict)
-    put_val(dict, sudoku)
+    remove_single_int_list(dict, sudoku)
     only_one_option_in_family(dict, sudoku)
 
 
@@ -27,6 +28,13 @@ def fun(old_sudoku, new_sudoku, wrk_pos):
 
         else:
             print("bien, se acabaron los valores faciles")
+            #x = {}
+            """ for key, val in wrk_pos.items():
+                if type(val) == list:
+                    x[key] = val
+            print(x) """
+
+            # print(new_sudoku)
             break
 
 
@@ -37,7 +45,7 @@ def cicle_of_solving(sudoku, dict):
                 ghst_values_chk(sudoku, dict, i, j)
             only_one_option_in_family(dict, sudoku)
     same_pos_and_val(dict)
-    put_val(dict, sudoku)
+    remove_single_int_list(dict, sudoku)
 
 
 def solve(my_sudoku):
@@ -51,6 +59,9 @@ def solve(my_sudoku):
 
 
 if __name__ == "__main__":
+    start = time.time()
     my_sudoku, difficulty = make_a_sudoku()
     solve(my_sudoku)
     print("difficulty: ", difficulty)
+    end = time.time()
+    print("time ", end - start)
