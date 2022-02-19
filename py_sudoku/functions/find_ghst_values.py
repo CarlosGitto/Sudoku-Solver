@@ -1,6 +1,6 @@
 # ghs_values, son valores que estan en una familia ocupando misma fila o columna, haciendo que ese valor si o si vaya ahi
 from py_sudoku.functions.remove_ghst import remove_ghst_values
-from py_sudoku.functions.return_family import func_abc
+from py_sudoku.functions.return_family import return_family_key
 
 # encuentra posibles ghst_values y los manda a sus respectivas funciones(x o y)
 
@@ -11,9 +11,9 @@ def ghst_values_chk(sudoku, dict, i, j):
     ghst_lst_y = []
     ghst_name_y = []
     family_items = []
-    family = func_abc(dict, i, j)
+    family = return_family_key(dict, i, j)
     key_selected = (family+str(i)+str(j))
-    print("working with", key_selected)
+    print("working with", key_selected, dict[key_selected])
     if type(dict[key_selected]) == list:
         for key in dict.keys():
 
@@ -38,7 +38,7 @@ def ghst_values_chk(sudoku, dict, i, j):
                     print(key, "same column")
                     for value in dict[key]:
                         if value in dict[key_selected] and value not in ghst_lst_y:
-                            print(key, "agrego", value, "a ghs_y")
+                            print(key, dict[key], "agrego", value, "a ghs_y")
                             ghst_lst_y.append(value)
                             if key not in ghst_name_y:
                                 print("chau")
@@ -59,41 +59,35 @@ def ghst_values_chk(sudoku, dict, i, j):
             ghst_lst_x.remove(values)
             ghst_lst_y.remove(values)
 
-        for nm in family_items:
-            if len(ghst_lst_x) == 0 and len(ghst_lst_y) == 0:
-                print("no ghst found")
-                return
+        if len(ghst_lst_x) == 0 and len(ghst_lst_y) == 0:
+            print("no ghst found")
+            return
+        else:
+            for nm in family_items:
 
-            if nm in ghst_name_x or nm in ghst_name_y:
-                continue
-            else:
-                for val in dict[nm]:
-                    print(nm, val)
-                    try:
-                        if val in ghst_lst_x:
-                            print("en", nm, val, "no es un ghst")
-                            ghst_lst_x.remove(val)
-                            print(val, "ah sido removido de la lista ghst")
-                            print(ghst_lst_x)
-                            if len(ghst_lst_x) == 0:
-                                return
-                        if val in ghst_lst_y:
-                            print("en", nm, val, "no es un ghst")
-                            ghst_lst_y.remove(val)
-                            print(val, "ah sido removido de la lista ghst")
-                            print(ghst_lst_y)
-                            if len(ghst_lst_y) == 0:
-                                return
-                    except:
-                        continue
+                if nm in ghst_name_x or nm in ghst_name_y:
+                    continue
+                else:
+                    for val in dict[nm]:
+                        try:
+                            if val in ghst_lst_x:
+                                print("en", nm, val, "no es un ghst")
+                                ghst_lst_x.remove(val)
+                                print(val, "ah sido removido de la lista ghst")
+                                print(ghst_lst_x)
+
+                            if val in ghst_lst_y:
+                                print("en", nm, val, "no es un ghst")
+                                ghst_lst_y.remove(val)
+                                print(val, "ah sido removido de la lista ghst")
+                                print(ghst_lst_y)
+
+                        except:
+                            continue
 
         if len(ghst_lst_x) != 0:
-            print("final list of ghst_x for ", key_selected, ghst_lst_x)
-            remove_ghst_values(sudoku[i], dict, i,
-                               ghst_lst_x, family, row_type=True)
+            print("final list of ghst_x for ", key_selected,
+                  ghst_lst_x, dict[key_selected])
         if len(ghst_lst_y) != 0:
-            print("final list of ghst_y for ", key_selected, ghst_lst_y)
-            remove_ghst_values(sudoku[:][j], dict, j,
-                               ghst_lst_y, family, row_type=False)
-
-    # input()
+            print("final list of ghst_y for ", key_selected,
+                  ghst_lst_y, dict[key_selected])

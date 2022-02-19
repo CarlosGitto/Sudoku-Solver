@@ -9,7 +9,7 @@ files=dict(foo='bar')
 """
 
 
-def check_difficult(level):
+def check_difficult(level: int) -> str:
     my_dict = {
         "60": "muy_facil",
         "20": "facil",
@@ -25,7 +25,7 @@ def make_a_save(sudoku_info):
         file.write(json.dumps(sudoku_info, indent=2))
 
 
-def get_sudoku():
+def get_sudoku() -> tuple:
     """
     Make a get request that brings a random sudoku from database
     """
@@ -39,9 +39,10 @@ def get_sudoku():
 
     initial_sudoku = sudoku["sudoku"].replace(".", "0")
     difficulty = check_difficult(sudoku["nivel"])
-    make_a_save(sudoku)
+    sudoku_solved = sudoku["solucion"]
+    # make_a_save(sudoku)
 
-    return initial_sudoku, difficulty
+    return initial_sudoku, sudoku_solved, difficulty
 
 
 def make_a_sudoku():
@@ -50,16 +51,20 @@ def make_a_sudoku():
     and return it
     """
 
-    initial_sudoku, difficulty = get_sudoku()
-    final_sudoku = []
-    x = len(initial_sudoku)
-    n = 9
-    for index in range(0, x, n):
-        final_sudoku.append(list(initial_sudoku[index: index + n]))
+    initial_sudoku, solution, difficulty = get_sudoku()
 
-    for i, sub_list in enumerate(final_sudoku):
-        final_sudoku[i] = [int(k) for k in sub_list]
+    sudokus = [initial_sudoku, solution]
+    my_sudokus = []
+    for i, sudoku in enumerate(sudokus):
+        final_sudoku = []
+        x = len(sudoku)
+        n = 9
+        for index in range(0, x, n):
+            final_sudoku.append(list(sudoku[index: index + n]))
 
-    my_sudoku = np.array(final_sudoku)
+        for i, sub_list in enumerate(final_sudoku):
+            final_sudoku[i] = [int(k) for k in sub_list]
 
-    return my_sudoku, difficulty
+        my_sudokus.append(np.array(final_sudoku))
+
+    return my_sudokus[0], my_sudokus[1], difficulty
